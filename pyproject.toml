@@ -1,0 +1,14 @@
+[project]
+name = "search-console-mcp"
+version = "0.1.0"
+description = "MCP server for Google Search Console with read-only Cloud project lookup"
+requires-python = ">=3.11"
+dependencies = [
+  "fastmcp>=3.2.4,<4",
+  "google-api-python-client>=2.160,<3",
+  "google-auth>=2.38,<3",
+  "google-auth-oauthlib>=1.2,<2",
+]
+
+[tool.uv]
+package = false
