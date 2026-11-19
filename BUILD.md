@@ -39,9 +39,9 @@ The server speaks MCP over stdio. Register it in a client as command `uv` with a
 
 | Variable | Meaning | Default |
 | --- | --- | --- |
-| `GOOGLE_API_MCP_TOKEN_FILE` | Saved token | under `~/.config/google-api-mcp/` |
-| `GOOGLE_API_MCP_CLIENT_FILE` | OAuth client JSON | under `~/.config/google-api-mcp/` |
-| `GOOGLE_API_MCP_ACCOUNT` | Required account email | unset |
+| `GOOGLE_API_MCP_TOKEN_FILE` | Saved token, read by the server and `authorize.py` | `~/.config/google-api-mcp/token.json` (under `$XDG_CONFIG_HOME` when set) |
+| `GOOGLE_API_MCP_CLIENT_FILE` | OAuth client JSON, read by the server, `authorize.py` and `set-client-secret.py` | `~/.config/google-api-mcp/client_secret.json` (under `$XDG_CONFIG_HOME` when set) |
+| `GOOGLE_API_MCP_ACCOUNT` | Default for `authorize.py --expected-email`; the server does not read it | unset |
 
 ## Tools
 
@@ -53,5 +53,5 @@ There is no test suite yet. Version 0.1.0 was smoke-checked: the 11 tools regist
 
 ## Troubleshooting
 
-- The server cannot find credentials: run `authorize.py` first, or set the three variables above.
+- The server cannot find credentials: run `authorize.py` first, or set `GOOGLE_API_MCP_TOKEN_FILE` and `GOOGLE_API_MCP_CLIENT_FILE`.
 - Removing a property removes it from your Search Console account, not from your website.
