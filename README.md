@@ -19,6 +19,8 @@ flowchart LR
   S -->|read-only| RM[Cloud Resource Manager v3]
 ```
 
+Static diagram: [docs/architecture.svg](docs/architecture.svg). Step-by-step build: [BUILD.md](BUILD.md).
+
 Reads: list properties, search analytics by query, page, country, device or date, sitemap status, and URL inspection. Writes: add or remove a property, submit or remove a sitemap. Cloud project search and get are read-only. The sign-in script ignores any callback that lacks the OAuth `state` value and saves credentials only for a verified email.
 
 ## Stack

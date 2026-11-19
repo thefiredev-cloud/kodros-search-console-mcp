@@ -1,0 +1,20 @@
+digraph "kodros-search-console-mcp architecture" {
+  rankdir=TB; bgcolor="white"; pad=0.3; nodesep=0.45; ranksep=0.7;
+  node [shape=box, style="rounded,filled", fillcolor="#f6f6f8", color="#c9c9d1", fontname="Helvetica,Arial,sans-serif", fontsize=12, fontcolor="#1b1b1f", margin="0.18,0.1", penwidth=1.4];
+  edge [color="#5c5c66", fontname="Helvetica,Arial,sans-serif", fontsize=10, fontcolor="#5c5c66", arrowsize=0.8];
+  auth [label="authorize.py\nloopback listener, state check"];
+  goog [label="Google OAuth"];
+  tok [label="token.json\nmode 0600"];
+  cli [label="MCP client"];
+  srv [label="server.py\n11 tools", color="#c2410c", penwidth=2.2, fillcolor="#fff7ed"];
+  sc [label="Search Console API"];
+  crm [label="Cloud Resource Manager v3\nread-only"];
+  auth -> goog [];
+  goog -> tok [label="verified email"];
+  cli -> srv [label="stdio"];
+  srv -> tok [];
+  srv -> sc [label="reads"];
+  srv -> sc [label="writes need confirm_site_url
+or confirm_feedpath", style="dashed"];
+  srv -> crm [];
+}
