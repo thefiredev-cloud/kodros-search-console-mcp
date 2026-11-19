@@ -4,6 +4,12 @@ An MCP server that lets an AI assistant read Google Search Console data and mana
 
 Part of the [Kodros](https://kodros.ai) tooling for running product websites.
 
+## On your hardware
+
+- Does: lets an assistant manage Google Search Console. It has no local-inference part.
+- Needs: Python 3.11. No GPU and no model.
+- Not offline: it calls Google's Search Console and Cloud Resource Manager APIs with your credentials. The token is stored on your machine in a file with mode 0600.
+
 ## How it works
 
 ```mermaid
