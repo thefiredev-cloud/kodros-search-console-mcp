@@ -49,7 +49,7 @@ Settings: `GOOGLE_API_MCP_TOKEN_FILE`, `GOOGLE_API_MCP_CLIENT_FILE` and `GOOGLE_
 
 ## Status and limits
 
-- Version 0.1.0. No test suite yet. A smoke check confirmed the 11 tools register and the email check passes, matches and rejects against a stubbed Google flow. Live API calls were not run against a real account in this repo.
+- Version 0.1.0. The offline test suite (`uv run pytest`) covers the property-containment checks for sitemap and inspection URLs and needs no credentials. Live API calls were not run against a real account in this repo.
 - Scopes: `webmasters`, `cloud-platform.read-only`, `openid`, `userinfo.email`.
 - Removing a property removes it from your Search Console account, not from your website.
 - It calls Google with your credentials. Review each write before an assistant runs it.

@@ -20,6 +20,7 @@ import tempfile
 from datetime import date
 from pathlib import Path
 from typing import Any, Literal
+from urllib.parse import urlsplit
 
 from fastmcp import FastMCP
 from google.auth.exceptions import RefreshError
@@ -363,16 +364,33 @@ def _require_property(site_url: str) -> str:
     return value
 
 
+def _url_in_property(site_url: str, url: str) -> bool:
+    """True when url belongs to the property.
+
+    A sc-domain property covers its host and every subdomain. A url-prefix property
+    covers one scheme and host, and only paths under its prefix on a path boundary:
+    prefix https://example.com/shop does not cover https://example.com/shopper, and
+    https://example.com does not cover https://example.com.evil.net.
+    """
+    parts = urlsplit(url)
+    host = (parts.hostname or "").lower()
+    if site_url.startswith("sc-domain:"):
+        domain = site_url[len("sc-domain:"):].strip().lower()
+        return bool(domain) and (host == domain or host.endswith("." + domain))
+    prefix = urlsplit(site_url)
+    if parts.scheme.lower() != prefix.scheme.lower() or parts.netloc.lower() != prefix.netloc.lower():
+        return False
+    base = prefix.path.rstrip("/")
+    return parts.path == base or parts.path.startswith(base + "/")
+
+
 def _sitemap_url(site_url: str, feedpath: str) -> str:
     value = feedpath.strip()
     if not value.lower().startswith(("http://", "https://")):
         raise ValueError("feedpath must be a full http(s) sitemap URL.")
-    if site_url.startswith("sc-domain:"):
-        host = site_url[len("sc-domain:"):].lower()
-        target = value.split("/", 3)[2].split(":")[0].lower()
-        if target != host and not target.endswith("." + host):
+    if not _url_in_property(site_url, value):
+        if site_url.startswith("sc-domain:"):
             raise ValueError("feedpath host must belong to the sc-domain property.")
-    elif not value.startswith(site_url):
         raise ValueError("feedpath must live under the url-prefix property.")
     return value
 
@@ -433,6 +451,8 @@ def inspect_url(
     site = _require_property(site_url)
     target = inspection_url.strip()
     if not target.lower().startswith(("http://", "https://")):
+        raise ValueError("inspection_url must be a full http(s) URL inside the property.")
+    if not _url_in_property(site, target):
         raise ValueError("inspection_url must be a full http(s) URL inside the property.")
     body = {"inspectionUrl": target, "siteUrl": site, "languageCode": language_code}
     response = _execute(

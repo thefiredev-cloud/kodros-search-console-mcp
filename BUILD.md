@@ -49,7 +49,12 @@ Eleven tools. Reads: list properties, search analytics by query, page, country, 
 
 ## Test
 
-There is no test suite yet. Version 0.1.0 was smoke-checked: the 11 tools register, and the email check passes, matches and rejects against a stubbed Google flow. Live API calls were not run in this repository.
+```sh
+uv sync
+uv run pytest
+```
+
+The offline suite covers the property-containment checks for sitemap and inspection URLs. It needs no credentials and makes no network calls. On 2026-11-19 it ran 16 tests. Live API calls were not run in this repository.
 
 ## Troubleshooting
 
