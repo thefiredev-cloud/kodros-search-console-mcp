@@ -45,7 +45,7 @@ uv run python server.py
 
 Register it as a stdio server: command `uv`, args `--directory /path/to/kodros-search-console-mcp run python server.py`.
 
-Settings: `GOOGLE_API_MCP_TOKEN_FILE`, `GOOGLE_API_MCP_CLIENT_FILE` and `GOOGLE_API_MCP_ACCOUNT`. Defaults live under `~/.config/google-api-mcp/`. `set-client-secret.py` updates the client JSON after you rotate the secret.
+Settings: the server reads `GOOGLE_API_MCP_TOKEN_FILE` and `GOOGLE_API_MCP_CLIENT_FILE`; both default under `~/.config/google-api-mcp/` (or `$XDG_CONFIG_HOME/google-api-mcp/`). `GOOGLE_API_MCP_ACCOUNT` is read only by `authorize.py`, as the default for `--expected-email`; the running server ignores it. `set-client-secret.py` updates the client JSON after you rotate the secret.
 
 ## Status and limits
 
